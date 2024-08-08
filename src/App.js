@@ -1,23 +1,27 @@
-import logo from './logo.svg';
 import './App.css';
+import { Routes, Route, Router } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import OfferPage from './components/offer/OfferPage';
+import OrderPage from './components/order/OrderPage';
+import { OfferListDetail } from './components/offer/OfferListDetail';
+import { OrderListDetail } from './components/order/OrderListDetail';
+import LoginForm from './pages/loginForm';
+import Layout from './components/layout/Layout';
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Routes>
+        <Route path="/" element={<LoginForm />} />
+        <Route element={<Layout />}>
+          <Route path="/Offer" element={<OfferPage />} />
+          <Route path="/Order" element={<OrderPage />} />
+          <Route path='/Offer/OfferListDetail/:ID' element={<OfferListDetail />} />
+          <Route path='/Order/OrderListDetail/:ID' element={<OrderListDetail />} />
+          <Route path="/Home" elemnet={<Layout />} />
+        </Route>
+      </Routes>
     </div>
   );
 }
