@@ -3,34 +3,33 @@ export const Offers = [
   {
     ID: 1,
     CompanyName: ' A Company',
-    OfferDate: '2024-01-28',
+    OfferDate: '01/28/2024',
     Description: 'Description1',
     Status: 'Approved'
   },
   {
     ID: 2,
     CompanyName: ' B Company',
-    OfferDate: '2024-03-11',
+    OfferDate: '05/15/2024',
     Description: 'Description2',
     Status: 'Waiting'
   },
   {
     ID: 3,
     CompanyName: ' C Company',
-    OfferDate: '2024-03-23',
+    OfferDate: '03/19/2024',
     Description: 'Description3',
-    Status: 'Rejected'
+    Status: 'Waiting'
   },
   {
     ID: 4,
     CompanyName: '  D Company',
-    OfferDate: '2024-07-10',
+    OfferDate: '06/17/2024',
     Description: 'Description4',
     Status: 'Approved'
-    
+
   },
 ];
-
 
 
 export const OffersDetails = [{
@@ -57,8 +56,14 @@ export const OffersDetails = [{
   Price: 33,
   Description: 'Product 3 details',
 
+},
+{
+  ID: 4,
+  Product: 'Product 4',
+  Quantity: 5000,
+  Price: 8789363,
+  Description: 'Product 4 details',
 }
-
 ];
 
 
@@ -69,7 +74,7 @@ export const Orders = [
     Quantity: 700,
     Unit: 'kg',
     UnitPrice: 1.23,
-    OrderDate: '2024-05-19',
+    OrderDate: '05/28/2024',
     Status: "Approved",
   },
   {
@@ -78,8 +83,8 @@ export const Orders = [
     Quantity: 57,
     Unit: 'pkg',
     UnitPrice: 19,
-    OrderDate: '2024-11-01',
-    Status:"Waiting",
+    OrderDate: '03/23/2024',
+    Status: "Waiting",
   },
   {
     ID: 3,
@@ -87,11 +92,10 @@ export const Orders = [
     Quantity: 9000,
     Unit: 'gram',
     UnitPrice: 78.90,
-    OrderDate: '2024-08-24',
-    Status:"Waiting",
+    OrderDate: '04/11/2024',
+    Status: "Waiting",
   }
 ];
-
 
 export const OrdersDetails = [
   {

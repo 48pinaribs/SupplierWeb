@@ -4,12 +4,11 @@ import Navbar from '../navbar/Navbar';
 import Footer from '../footer/Footer';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import './breadcrumbs.css';
 
 const Layout = () => {
     const ID = useParams();
-
     const location = useLocation();
     const loc = location.pathname.split("/")[1];
     const Loc = location.pathname.split("/")[2];

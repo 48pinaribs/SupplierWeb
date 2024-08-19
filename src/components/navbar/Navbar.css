@@ -16,7 +16,7 @@ body {
 }
 
 header {
-    background: rgb(110, 187, 215);
+    background-color: rgb(33, 81, 178);
     width: 100%;
     height: 70px;
     display: flex;
@@ -43,9 +43,12 @@ header nav ul li a {
     display: inline-block;
     color: #ffffff;
     padding: 5px 0;
-    margin: 0 10px;
+    margin: 0 20px;
     border-color: white;
     text-decoration: none;
+    flex-direction: row;
+
+
 }
 
 header nav ul li a:hover,
@@ -54,15 +57,29 @@ header nav ul li a.active {
     text-align: center;
 }
 
+
+header nav ul li a:hover,
+header nav ul li a.Active {
+
+    text-align: center;
+}
+
 .active {
-    background-color: rgb(66, 161, 195);
+    background-color: rgb(23, 122, 183) !important;
     border-radius: 4px;
     text-align: center;
     align-content: center;
+    width: 100px;
+
+
+}
+
+.Active {
+    background-color: rgb(75, 206, 97) !important;
 }
 
 .menuuser {
-    background-color: rgb(66, 132, 160);
+
     border-radius: 2;
     border-color: white;
     padding-top: 4px;
@@ -86,7 +103,6 @@ header nav ul li a.active {
 }
 
 @media only screen and (max-width: 760px) {
-
 
     header nav {
         position: absolute;
@@ -124,29 +140,20 @@ header nav ul li a.active {
     position: absolute;
     top: 50px;
     right: 10px;
-    width: 100px;
-    background-color: white;
-
-    border-radius: 4px;
+    width: 130px;
     z-index: 1000;
+    background-color: rgb(87, 87, 247);
+
 }
 
 .menu ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
+
 }
 
 .menu li {
     padding: 5px;
-    border-bottom: 1px solid #ddd;
-}
 
-.menu li:hover {
-    background-color: #c1dbed;
-}
-
-.menu li a {
-    text-decoration: none;
-    color: rgb(15, 122, 146);
 }

@@ -1,21 +1,35 @@
 import React from 'react';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
+import { useState } from 'react';
+import './tab.css';
 
-const Tab = ({ tabs, onTabClick }) => {
+const Tab1 = ({ tabs, onTabClick }) => {
+    const [value, setValue] = useState(tabs[0].key);
+    const handleChange = (_, newValue) => {
+        setValue(newValue);
+    };
+
     return (
-        <div className='tab'>
-            <div>
-                {tabs.map((tab, index) => (
-                    <button
-                        key={index}
-                        className={`tab-button ${tab.active ? 'Active' : ''}`}
-                        onClick={() => onTabClick(tab.key)}
-                    >
-                        {tab.label}
-                    </button>
-                ))}
-            </div>
+        <div className='tab' >
+            <Box>
+                <Tabs
+                    value={value}
+                    onChange={handleChange}
+                >
+                    {tabs.map((tabbar) => (
+                        <Tab
+                            key={tabbar.key}
+                            label={tabbar.label}
+                            onClick={() => onTabClick(tabbar.key)}
+                        />
+                    ))}
+                </Tabs>
+            </Box>
         </div>
     );
 };
 
-export default Tab;
+export default Tab1;
+

@@ -5,10 +5,8 @@ import OfferPage from './components/offer/OfferPage';
 import OrderPage from './components/order/OrderPage';
 import { OfferListDetail } from './components/offer/OfferListDetail';
 import { OrderListDetail } from './components/order/OrderListDetail';
-import LoginForm from './pages/loginForm';
+import LoginForm from './components/pages/loginForm';
 import Layout from './components/layout/Layout';
-
-
 function App() {
   return (
     <div className="App">
@@ -25,5 +23,4 @@ function App() {
     </div>
   );
 }
-
 export default App;

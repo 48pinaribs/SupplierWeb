@@ -1,13 +1,40 @@
-import Table from 'react-bootstrap/Table';
+import { useState } from 'react';
 import { OrdersDetails } from '../data';
 import { useParams } from 'react-router-dom';
-import { useState } from 'react';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
+import { useEffect } from 'react';
 
-
-
-export const OrderListDetail = (props) => {
-
+export const OrderListDetail = () => {
   const { ID } = useParams();
+
+
+  const handleChange = (e, setState) => {
+
+    setState(e.target.value);
+  };
+
+  useEffect(() => {
+    const selectedItemdetay = OrdersDetails.find(order => order.ID === parseInt(ID));
+    if (selectedItemdetay) {
+      setItemdetayId(selectedItemdetay.ID);
+      setItemdetayProduct(selectedItemdetay.Product);
+      setItemdetayInvoiceAddress(selectedItemdetay.InvoiceAddress);
+      setItemdetayDeliveryAddress(selectedItemdetay.DeliveryAddress);
+      setItemdetayOrderAmount(selectedItemdetay.OrderAmount);
+      setItemdetayDescription(selectedItemdetay.Description);
+    }
+  }, [ID]);
 
   const [itemdetayId, setItemdetayId] = useState('');
   const [itemdetayProduct, setItemdetayProduct] = useState('');
@@ -15,76 +42,160 @@ export const OrderListDetail = (props) => {
   const [itemdetayDeliveryAddress, setItemdetayDeliveryAddress] = useState('');
   const [itemdetayOrderAmount, setItemdetayOrderAmount] = useState('');
   const [itemdetayDescription, setItemdetayDescription] = useState('');
+  /* 
+    const handleChange = (event) => {
+      setItemdetayId(event.target.value);
+      setItemdetayProduct(event.target.value);
+      setItemdetayInvoiceAddress(event.target.value);
+      setItemdetayDeliveryAddress(event.target.value);
+      setItemdetayOrderAmount(event.target.value);
+      setItemdetayDescription(event.target.value);
+    };
+   */
+  const ResponsiveTableCell = styled(TableCell)(({ theme }) => ({
+    [theme.breakpoints.down('sm')]: {
 
-  const handleChange = (event) => {
-    setItemdetayId(event.target.value);
-    setItemdetayProduct(event.target.value);
-    setItemdetayInvoiceAddress(event.target.value);
-    setItemdetayDeliveryAddress(event.target.value);
-    setItemdetayOrderAmount(event.target.value);
-    setItemdetayDescription(event.target.value);
+      display: 'flex',
+      width: '100%',
+      boxSizing: 'border-box',
+      borderBottom: '1px solid #e0e0e0',
+    },
+    '&:before': {
+      content: 'attr(data-label)',
+      fontWeight: 'bold',
+      display: 'flex',
+      width: '100%',
+      marginBottom: '4px',
+      [theme.breakpoints.up('sm')]: {
+        display: 'none',
+      },
+    },
+  }));
 
-  };
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 600);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   return (
-    <div className='table' >
+    <Box sx={{ padding: '16px', marginLeft: '30px', marginRight: '30px' }}>
+      <TableContainer component={Paper} style={{ overflowX: 'auto' }}>
+        <Table aria-label="simple table">
+          {!isMobile && (
+            <TableHead>
+              <TableRow>
+                {['ID', 'Ürün', 'Fatura Adresi', 'Teslimat Adresi', 'Sipariş Miktarı', 'Açıklama'].map((heading, index) => (
+                  <ResponsiveTableCell key={index} style={{ padding: '8px', fontSize: '12px', maxWidth: '50px' }}>
+                    {heading}
+                  </ResponsiveTableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+          )}
+          <TableBody>
+            {OrdersDetails.filter(order => order.ID === parseInt(ID)).map((itemdetay, index) => (
+              <TableRow key={index} style={{ padding: '4px', height: 'auto' }}>
+                <ResponsiveTableCell data-label="ID" style={{ padding: '4px', maxWidth: '500px' }}>
+                  <TextField
+                    value={itemdetayId}
+                    onChange={e => setItemdetayId(e.target.value)}
+                    variant='standard'
+                    fullWidth
+                    InputProps={{ disableUnderline: true }}
+                    inputProps={{ style: { fontSize: '12px', padding: '4px' } }}
+                    style={{ maxWidth: '200px' }}
+                  />
+                </ResponsiveTableCell>
+                <ResponsiveTableCell data-label="Ürün" style={{ padding: '4px', maxWidth: '500px' }}>
+                  <TextField
+                    value={itemdetayProduct}
+                    onChange={e => setItemdetayProduct(e.target.value)}
+                    variant='standard'
+                    fullWidth
+                    InputProps={{ disableUnderline: true }}
+                    inputProps={{ style: { fontSize: '12px', padding: '4px' } }}
+                    style={{ maxWidth: '200px' }}
+                  />
+                </ResponsiveTableCell>
+                <ResponsiveTableCell data-label="Fatura Adresi" style={{ padding: '4px', maxWidth: '500px' }}>
+                  <TextField
+                    value={itemdetayInvoiceAddress}
+                    onChange={e => setItemdetayInvoiceAddress(e.target.value)}
+                    variant='standard'
+                    fullWidth
+                    InputProps={{ disableUnderline: true }}
+                    inputProps={{ style: { fontSize: '12px', padding: '4px' } }}
+                    style={{ maxWidth: '200px' }}
+                  />
+                </ResponsiveTableCell>
+                <ResponsiveTableCell data-label="Teslimat Adresi" style={{ padding: '4px', maxWidth: '500px' }}>
+                  <TextField
+                    value={itemdetayDeliveryAddress}
+                    onChange={e => setItemdetayDeliveryAddress(e.target.value)}
+                    variant='standard'
+                    fullWidth
+                    InputProps={{ disableUnderline: true }}
+                    inputProps={{ style: { fontSize: '12px', padding: '4px' } }}
+                    style={{ maxWidth: '200px' }}
+                  />
+                </ResponsiveTableCell>
+                <ResponsiveTableCell data-label="Sipariş Miktarı" style={{ padding: '4px', maxWidth: '500px' }}>
+                  <TextField
+                    value={itemdetayOrderAmount}
+                    onChange={e => setItemdetayOrderAmount(e.target.value)}
+                    variant='standard'
+                    fullWidth
+                    InputProps={{ disableUnderline: true }}
+                    inputProps={{ style: { fontSize: '12px', padding: '4px' } }}
+                    style={{ maxWidth: '200px' }}
+                  />
+                </ResponsiveTableCell>
+                <ResponsiveTableCell data-label="Açıklama" style={{ padding: '4px', maxWidth: '500px' }}>
+                  <TextField
+                    value={itemdetayDescription}
+                    onChange={e => setItemdetayDescription(e.target.value)}
+                    variant='standard'
+                    fullWidth
+                    InputProps={{ disableUnderline: true }}
+                    inputProps={{ style: { fontSize: '12px', padding: '4px' } }}
+                    style={{ maxWidth: '200px' }}
+                  />
+                </ResponsiveTableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
-      <Table striped bordered hover >
-        <table>
-          <thead>
-            <tr>
-              <th className='box'>ID</th>
-              <th className='box'>Ürün</th>
-              <th className='box'>Fatura Adresi</th>
-              <th className='box'>Teslimat Adresi</th>
-              <th className='box'>Siprariş Tutarı</th>
-              <th className='box'>Açıklama</th>
-            </tr>
-          </thead>
-          <tbody>
-
-            {OrdersDetails.filter(order => order.ID === parseInt(ID)).map((itemdetay, index) => {
-              return (
-
-                <tr key={index} >
-                  <td >
-                    <span className="cell-Header">Sipariş ID: </span><input type="text" defaultValue={itemdetay.ID} id={itemdetayId} onChange={e => setItemdetayId(e.target.value)} className='input' />
-                  </td>
-                  <td>
-                    <span className="cell-Header">Ürün: </span><input type="text" defaultValue={itemdetay.Product} id={itemdetayProduct} onChange={e => setItemdetayProduct(e.target.value)} className='input' />
-                  </td>
-                  <td>
-                    <span className="cell-Header">Fatura Adresi: </span> <input type="text" defaultValue={itemdetay.InvoiceAddress} id={itemdetayInvoiceAddress} onChange={e => setItemdetayInvoiceAddress(e.target.value)} className='input' />
-                  </td>
-                  <td>
-                    <span className="cell-Header">Teslimat Adresi: </span> <input type="text" defaultValue={itemdetay.DeliveryAddress} id={itemdetayDeliveryAddress} onChange={e => setItemdetayDeliveryAddress(e.target.value)} className='input' />
-                  </td>
-                  <td>
-                    <span className="cell-Header">Miktarı: </span> <input type="text" defaultValue={itemdetay.OrderAmount} id={itemdetayOrderAmount} onChange={e => setItemdetayOrderAmount(e.target.value)} className='input' />
-                  </td>
-                  <td>
-                    <span className="cell-Header">Açıklama: </span> <input type="text" defaultValue={itemdetay.Description} id={itemdetayDescription} onChange={e => setItemdetayDescription(e.target.value)} className='input' />
-                  </td>
-                </tr>
-
-              )
-            }
-            )
-            }
-
-          </tbody>
-        </table>
-      </Table>
-      <div >
-        <button onClick={() => console.log("ID:", itemdetayId, "Product:", itemdetayProduct, "Invoice Adress:", itemdetayInvoiceAddress, "Delivery Address:", itemdetayDeliveryAddress, "Order Amount:", itemdetayOrderAmount, "Description:", itemdetayDescription)} style={{
-          borderRadius: "8px",
-          padding: "6px 1rem",
-          border: "none",
-          fontSize: "1.2rem",
-          color: "#02a3a8"
-        }} >Save</button>
-      </div>
-    </div>
+      <Stack backgroundColor='white' sx={{ marginTop: '25px' }}>
+        <Button
+          variant="contained"
+          onClick={() => console.log("ID:", itemdetayId, "Product:", itemdetayProduct, "Quantity:", itemdetayInvoiceAddress, "Price:", itemdetayDeliveryAddress, "Description:", itemdetayDescription)}
+          style={{
+            backgroundColor: 'blue',
+            paddingTop: '2px',
+            fontSize: '11px',
+            width: '100%',
+            maxWidth: '70px',
+            height: '25px',
+            color: 'white',
+            borderRadius: '3px',
+            marginLeft: 'auto',
+            display: 'block',
+          }}
+        >
+          Save
+        </Button>
+      </Stack>
+    </Box>
   );
-}
-
+};

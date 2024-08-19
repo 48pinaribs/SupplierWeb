@@ -2,7 +2,7 @@ import React from 'react'
 import './LoginForm.css'
 import { FaUserAlt, } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
-import logo from "../assets/ozyer_logo.png";
+import logo from "../../assets/ozyer_logo.png";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 

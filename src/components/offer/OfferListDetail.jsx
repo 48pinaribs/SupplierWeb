@@ -1,7 +1,20 @@
-import Table from 'react-bootstrap/Table';
 import { useState } from 'react';
 import { OffersDetails } from '../data';
 import { useParams } from 'react-router-dom';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
+import { useEffect } from 'react';
+
 
 export const OfferListDetail = () => {
   const { ID } = useParams();
@@ -12,67 +25,155 @@ export const OfferListDetail = () => {
   const [itemdetayPrice, setItemdetayPrice] = useState('');
   const [itemdetayDescription, setItemdetayDescription] = useState('');
 
-  const handleChange = (event) => {
-    setItemdetayId(event.target.value);
-    setItemdetayProduct(event.target.value);
-    setItemdetayQuantity(event.target.value);
-    setItemdetayPrice(event.target.value);
-    setItemdetayDescription(event.target.value);
+  const handleChange = (e, setState) => {
+
+    setState(e.target.value);
   };
 
+  useEffect(() => {
+    // ID'ye göre veri yükleyin ve state'leri güncelleyin
+    const selectedItemdetay = OffersDetails.find(offer => offer.ID === parseInt(ID));
+    if (selectedItemdetay) {
+      setItemdetayId(selectedItemdetay.ID);
+      setItemdetayProduct(selectedItemdetay.Product);
+      setItemdetayQuantity(selectedItemdetay.Quantity);
+      setItemdetayPrice(selectedItemdetay.Price);
+      setItemdetayDescription(selectedItemdetay.Description);
+    }
+  }, [ID]);
+
+  const ResponsiveTableCell = styled(TableCell)(({ theme }) => ({
+    [theme.breakpoints.down('sm')]: {
+      display: 'flex',
+      width: '100%',
+      boxSizing: 'border-box',
+      borderBottom: '1px solid #e0e0e0',
+    },
+    '&:before': {
+      content: 'attr(data-label)',
+      fontWeight: 'bold',
+      display: 'flex',
+      width: '100%',
+      marginBottom: '4px',
+      [theme.breakpoints.up('sm')]: {
+        display: 'none',
+      },
+    },
+  }));
+
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 600);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
+    <Box sx={{ padding: '16px', marginLeft: '30px', marginRight: '30px' }}>
+      <TableContainer component={Paper} style={{ overflowX: 'auto' }}>
+        <Table aria-label="simple table">
+          {!isMobile && (
+            <TableHead>
+              <TableRow>
+                {['ID', 'Ürün', 'Miktar', 'Ücret', 'Açıklama'].map((heading, index) => (
+                  <ResponsiveTableCell key={index} style={{ padding: '8px', fontSize: '12px', maxWidth: '50px' }}>
+                    {heading}
+                  </ResponsiveTableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+          )}
+          <TableBody>
+            {OffersDetails.filter(offer => offer.ID === parseInt(ID)).map((itemdetay, index) => (
+              <TableRow key={index} style={{ padding: '4px', height: 'auto' }}>
+                <ResponsiveTableCell data-label="ID" style={{ padding: '4px', maxWidth: '500px' }}>
+                  <TextField
+                    value={itemdetayId}
+                    onChange={e => setItemdetayId(e.target.value)}
+                    variant='standard'
+                    fullWidth
+                    InputProps={{ disableUnderline: true }}
+                    inputProps={{ style: { fontSize: '12px', padding: '4px' } }}
+                    style={{ maxWidth: '200px' }}
+                  />
+                </ResponsiveTableCell>
+                <ResponsiveTableCell data-label="Ürün" style={{ padding: '4px', maxWidth: '500px' }}>
+                  <TextField
+                    value={itemdetayProduct}
+                    onChange={e => setItemdetayProduct(e.target.value)}
+                    variant='standard'
+                    fullWidth
+                    InputProps={{ disableUnderline: true }}
+                    inputProps={{ style: { fontSize: '12px', padding: '4px' } }}
+                    style={{ maxWidth: '200px' }}
+                  />
+                </ResponsiveTableCell>
+                <ResponsiveTableCell data-label="Miktar" style={{ padding: '4px', maxWidth: '500px' }}>
+                  <TextField
+                    value={itemdetayQuantity}
+                    onChange={e => setItemdetayQuantity(e.target.value)}
+                    variant='standard'
+                    fullWidth
+                    InputProps={{ disableUnderline: true }}
+                    inputProps={{ style: { fontSize: '12px', padding: '4px' } }}
+                    style={{ maxWidth: '200px' }}
+                  />
+                </ResponsiveTableCell>
+                <ResponsiveTableCell data-label="Ücret" style={{ padding: '4px', maxWidth: '500px' }}>
+                  <TextField
+                    value={itemdetayPrice}
+                    onChange={e => setItemdetayPrice(e.target.value)}
+                    variant='standard'
+                    fullWidth
+                    InputProps={{ disableUnderline: true }}
+                    inputProps={{ style: { fontSize: '12px', padding: '4px' } }}
+                    style={{ maxWidth: '200px' }}
+                  />
+                </ResponsiveTableCell>
+                <ResponsiveTableCell data-label="Açıklama" style={{ padding: '4px', maxWidth: '500px' }}>
+                  <TextField
+                    value={itemdetayDescription}
+                    onChange={e => setItemdetayDescription(e.target.value)}
+                    variant='standard'
+                    fullWidth
+                    InputProps={{ disableUnderline: true }}
+                    inputProps={{ style: { fontSize: '12px', padding: '4px' } }}
+                    style={{ maxWidth: '200px' }}
+                  />
+                </ResponsiveTableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
-    <div className='table' >
-      <Table striped bordered hover>
-        <table>
-          <thead>
-            <tr>
-              <th className='box'>ID</th>
-              <th className='box'>Ürün</th>
-              <th className='box' >Miktar</th>
-              <th className='box'>Ücret</th>
-              <th className='box'>Açıklama</th>
-            </tr>
-          </thead>
-          <tbody>
-            {OffersDetails.filter(offer => offer.ID === parseInt(ID)).map((itemdetay, index) => {
-              return (
-                <tr key={index}>
-                  <td className='cell'>
-                    <span className="cell-header">Teklif ID: </span><input type="text" defaultValue={itemdetay.ID} id={itemdetayId} onChange={e => setItemdetayId(e.target.value)} className='input' />
-                  </td>
-                  <td className='cell'>
-                    <span className="cell-header">Ürün  : </span><input type="text" defaultValue={itemdetay.Product} id={itemdetayProduct} onChange={e => setItemdetayProduct(e.target.value)} className='input' />
-                  </td>
-                  <td className='cell'>
-                    <span className="cell-header">Miktar: </span><input type="text" defaultValue={itemdetay.Quantity} id={itemdetayQuantity} onChange={e => setItemdetayQuantity(e.target.value)} className='input' />
-                  </td>
-                  <td className='cell'>
-                    <span className="cell-header">Ücret: </span><input type="text" defaultValue={itemdetay.Price} id={itemdetayPrice} onChange={e => setItemdetayPrice(e.target.value)} className='input' />
-                  </td>
-                  <td className='cell'>
-                    <span className="cell-header">Açıklama: </span> <input type="text" defaultValue={itemdetay.Description} id={itemdetayDescription} onChange={e => setItemdetayDescription(e.target.value)} className='input' />
-                  </td>
-                </tr>
-              )
-            }
-            )}
-          </tbody>
-        </table>
-      </Table>
-      <div >
-        <button onClick={() => console.log("ID:", itemdetayId, "Product:", itemdetayProduct, "Quantity:", itemdetayQuantity, "Price:", itemdetayPrice, "Description:", itemdetayDescription)} style={{
-          borderRadius: "8px",
-          padding: "6px 1rem",
-          border: "none",
-          fontSize: "1.2rem",
-          color: "#02a3a8",
-          display: 'flex',
-          alignItems: 'center'
-        }} >Save</button>
-      </div>
-
-    </div>
+      <Stack backgroundColor='white' sx={{ marginTop: '25px' }}>
+        <Button
+          variant="contained"
+          onClick={() => console.log("ID:", itemdetayId, "Product:", itemdetayProduct, "Quantity:", itemdetayQuantity, "Price:", itemdetayPrice, "Description:", itemdetayDescription)}
+          style={{
+            backgroundColor: 'blue',
+            paddingTop: '2px',
+            fontSize: '11px',
+            width: '100%',
+            maxWidth: '70px',
+            height: '25px',
+            color: 'white',
+            borderRadius: '3px',
+            marginLeft: 'auto',
+            display: 'block',
+          }}
+        >
+          Save
+        </Button>
+      </Stack>
+    </Box>
   );
-}
-
+};
